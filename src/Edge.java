@@ -15,4 +15,19 @@ public class Edge {
 	}
 	public double getWeight(){	return this.weight;}
 	
+	public Node getNodeA(){return A;}
+	public Node getNodeB(){return B;}
+	@Override
+	public boolean equals(Object o){
+		if( o != null && o instanceof Edge)
+		{
+			return ( this.A.getNodeID() == ((Edge)o).getNodeA().getNodeID() &&
+					this.B.getNodeID() == ((Edge)o).getNodeB().getNodeID() ) ||
+					( this.B.getNodeID() == ((Edge)o).getNodeA().getNodeID() &&
+					this.A.getNodeID() == ((Edge)o).getNodeB().getNodeID() );
+		}
+		
+		return false;
+	}
+	
 }
