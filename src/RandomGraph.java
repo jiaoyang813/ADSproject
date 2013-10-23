@@ -1,46 +1,65 @@
-
+import java.util.Random;
+import java.util.*;
+import java.util.HashSet;
 public class RandomGraph {
 	private int NumNode;
 	private int NumEdge;
+	private double density;
 	
 	public RandomGraph(int nodes, double dense)
 	{
 		NumNode = nodes;
-		NumEdge = (int) ( dense * nodes*(nodes-1)/2);
+		NumEdge = (int) ( dense/100.0 * nodes*(nodes-1)/2);
+		density = dense;
 	}
 	
 	public SimpleGraph Generate(){
 		SimpleGraph graph = new SimpleGraph();
+		Random rd = new Random(System.currentTimeMillis());
+		ArrayList<Node> newNode = new ArrayList<Node>();
+		ArrayList<Edge> newEdge = new ArrayList<Edge>();
 		int weight;
-		int IndexNodeA;
-		int IndexNodeB;
-		// add node to graph
-		for(int i = 0; i < NumNode; i++)
-		{
-			Node node = new Node(i);
-			graph.AddNode(node);
-		}
 		
-		//add edge to graph
 		int edgecount = 0;
-		while(edgecount < NumEdge)
+		
+		for(int i = 0; i <NumNode; i++)
 		{
-			weight = (int )(Math.random() * 1000 + 1);
-			IndexNodeA = (int )(Math.random() * NumNode);
-			IndexNodeB = (int )(Math.random() * NumNode);
-			while(IndexNodeB == IndexNodeA)
+			for(int j = 0; j <i; j++)
 			{
-				IndexNodeA = (int )(Math.random() * NumNode);
+				
+				if(rd.nextDouble() <= density )
+				{	
+					weight = rd.nextInt(1000) + 1;
+					Edge e = new Edge(new Node(i), new Node(j), weight);
+					newEdge.add(e);
+					graph.AddUniqueEdge(e);
+					//System.out.println("Edge No."+edgecount++);
+				}
 			}
-			Edge e = new Edge(graph.getNodes().get(IndexNodeA), 
-								graph.getNodes().get(IndexNodeB), (double)weight);
-			boolean IsAdded = graph.AddEdge(e);
-			if(IsAdded)
-				edgecount++;
-
 		}
 		
-		System.out.println("A new random graph");
+		//add newEdge newNode to graph
+		int mysize = 0;
+		for(Edge e : newEdge)
+		{
+			graph.AddNode(e.getNodeA());
+			//graph.AddNode(e.getNodeB());
+			//newNode.add(e.getNodeA());
+			//newNode.add(e.getNodeB());
+			//System.out.println("AddEdge No."+mysize++);
+		}
+		
+		//remove duplicate in newNode
+	/*	HashSet<Node> uniqueNodeSet = new HashSet<Node>(newNode);
+		System.out.println("Unique size "+uniqueNodeSet.size());
+		System.out.println("original size "+newNode.size());
+		for(Node n : newNode )
+		{
+			graph.AddNode(n);
+		}
+		*/
+		
+		System.out.println("A new random graph(Node = "+NumNode+ ", density = " + density+"%)");
 		return graph;
 		
 		

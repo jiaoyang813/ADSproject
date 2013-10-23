@@ -3,11 +3,11 @@ public class SimpleGraph {
 	private ArrayList<Node> nodes = new ArrayList<Node>();
 	private ArrayList<Edge> edges = new ArrayList<Edge>();
 	
+	
 	public boolean AddNode(Node node){
 		if(!nodes.contains(node))
 		{	
 			nodes.add(node);
-			
 			return true;
 		}
 		else 
@@ -15,6 +15,12 @@ public class SimpleGraph {
 			//System.out.println("Duplicate node");
 			return false;
 		}
+	}
+	
+	public boolean AddUniqueNode(Node node){
+		
+			nodes.add(node);
+			return true;
 	}
 	
 	public boolean AddEdge(Edge e)
@@ -28,6 +34,13 @@ public class SimpleGraph {
 			return false;
 	}
 	
+	public boolean AddUniqueEdge(Edge e)
+	{
+		
+		edges.add(e);
+		return true;
+	}
+	
 	public ArrayList<Node> getNodes(){ return nodes;}
 	
 	public ArrayList<Edge> getEdges(){ return edges;}
@@ -38,7 +51,6 @@ public class SimpleGraph {
 	
 	public boolean RemoveEdge(Edge e){
 		return edges.remove(e);
-		
 	}
 	
 	//get neighbour edges of current vertices
@@ -56,56 +68,43 @@ public class SimpleGraph {
 					{
 						neighbourEdges.add(e);
 					}
-					/*else if(vertices.contains(e.getNodeA()) && vertices.contains(e.getNodeB()))
-					{
-						System.out.println("Edge already exist");
-					}
-					else
-					{
-						System.out.println("This edge not satisfy");
-					}*/
 				}
 			
 			return neighbourEdges;
 		}
 	
+	/*	public void getEachNodeNeighbour()
+		{
+			for(Node n: nodes)
+			{
+				for(Edge e: edges)
+				{
+					if(e.getNodeA().equals(n))
+						n.neighbourEdges.add(e);
+					if(e.getNodeB().equals(n))
+						n.neighbourEdges.add(e);
+					
+				}
+			}
+		}*/
 		
     public void PrintGraph(){
     	for(Node n : nodes)
     	{
     		System.out.print("Node: "+n.getNodeID()+", ");
+
     	}
     	System.out.println();
     	for(Edge e : edges)
     	{
     		System.out.print("Edge: "+ e.getNodeA().getNodeID() +"->"
     				+e.getNodeB().getNodeID()+" Weight: "+e.getWeight() +", ");
+    		
     	}
+    	System.out.println();
     	
+  	
     }
-	//get neighbour node of current vertices
-	/*public ArrayList<Node> getNeighbourNodes(ArrayList<Node> vertices)
-	{
-		ArrayList<Node> neighbour = new ArrayList<Node>();
-		for(Node node: vertices)
-		{
-			for(Edge e : edges)
-			{
-				if(e.getNodeA().getNodeID() == node.getNodeID() && !vertices.contains( e.getNodeB() ) )
-				{
-					neighbour.add(e.getNodeB());
-				}
-				else if(e.getNodeB().getNodeID() == node.getNodeID() && !vertices.contains( e.getNodeA() ) )
-				{
-					neighbour.add(e.getNodeA());
-				}
-				
-			}
-		}
-		
-		return neighbour;
-	}*/
-	
-	
+
 }
 

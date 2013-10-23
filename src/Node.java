@@ -1,8 +1,8 @@
-
+import java.util.*;
 public class Node {
 	private int Id;
 	private boolean visited = false;
-	
+	//public  ArrayList<Edge> neighbourEdges = new ArrayList<Edge>();
 	//constructor
 	public Node(){}
 	public Node(int ID){ this.Id = ID;}

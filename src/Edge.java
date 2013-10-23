@@ -1,19 +1,19 @@
 
 public class Edge {
 	private Node A, B;
-	private double weight;
+	private int weight;
 	
 	public Edge(Node a, Node b)
 	{
-		this(a, b, Double.POSITIVE_INFINITY);
+		this(a, b, Integer.MAX_VALUE);
 	}
-	public Edge(Node a, Node b, double EdgeWeight)
+	public Edge(Node a, Node b, int EdgeWeight)
 	{
 		A = a;
 		B = b;
 		this.weight = EdgeWeight;
 	}
-	public double getWeight(){	return this.weight;}
+	public int getWeight(){	return this.weight;}
 	
 	public Node getNodeA(){return A;}
 	public Node getNodeB(){return B;}
