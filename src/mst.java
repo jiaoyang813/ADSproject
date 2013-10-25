@@ -20,28 +20,41 @@ public class mst {
 		//random mode
 		if( args[0].equals("-r"))
 		{
+			System.out.println("Random Mode");
 			//random mode: mst -r n d  n vertices with d% density.
 			RandomGraph rdgraph = new RandomGraph(Integer.parseInt(args[1]), Double.parseDouble(args[2]));
 			SimpleGraph randomGraph = rdgraph.Generate();
 			
 			//fibMST random mode
-			HeapStartTime = System.currentTimeMillis();
+			System.out.println("Genrating MST(f-heap scheme)...");
+			
 			MSTFib mstfib = new MSTFib(randomGraph);
-			printMST(mstfib.getMST());
-			System.out.println("MST cost "+mstfib.getTotalCost());
+			HeapStartTime = System.currentTimeMillis();
+			resultMST = mstfib.getMST();
 			HeapEndTime = System.currentTimeMillis() - HeapStartTime;
+			//printMST(resultMST);
+			System.out.println("MST(f-heap scheme cost) "+mstfib.getTotalCost());
+			
+			//System.out.println("f-heap scheme time: "+ HeapEndTime+"ms");
+			
 			//simple MST random mode
-			ArrayStartTime = System.currentTimeMillis();
+			System.out.println("Genrating MST(simple scheme)...");
+			
 			MSTSimple simpleMST = new MSTSimple(randomGraph);
-			printMST(simpleMST.getMST());
-			System.out.println("MSTSimple cost "+simpleMST.getTotalCost());
+			ArrayStartTime = System.currentTimeMillis();
+			resultMST = simpleMST.getMST();
 			ArrayEndTime = System.currentTimeMillis() - ArrayStartTime;
-			System.out.println("Heap time "+ HeapEndTime + "; Array time "+ ArrayEndTime);
+			//printMST(resultMST);
+			System.out.println("MST(Simple Scheme) cost "+simpleMST.getTotalCost());
+			System.out.println("f-heap scheme running time: "+ HeapEndTime+"ms");
+			System.out.println("simple scheme running time: "+ ArrayEndTime+"ms");
+		
 		}
 		
 		else if(args[0].equals("-s"))
 		{
 			//user input mode: mst -s filename
+			System.out.println("User Input Mode(simple scheme)");
 			SimpleGraph InputGraph = new SimpleGraph();
 			try {
 				Scanner FileIn = new Scanner(new File(args[1]));
@@ -66,18 +79,18 @@ public class mst {
 			//simple MST input mode
 			MSTSimple simpleMST = new MSTSimple(InputGraph);
 			resultMST = simpleMST.getMST();
-			System.out.println("MSTSimple cost "+simpleMST.getTotalCost());
+			System.out.println(simpleMST.getTotalCost());
 			outputMST(resultMST);
-			
-			
-			
+
 		}
 		
 		else if(args[0].equals("-f") )
 		{
 			//user input mode: mst -f filename
+			System.out.println("User Input Mode(f-heap scheme)");
 			SimpleGraph InputGraph = new SimpleGraph();
 			try {
+				// use scanner to read file from disk
 				Scanner FileIn = new Scanner(new File(args[1]));
 				numNodes = Integer.parseInt(FileIn.next() );
 				numEdges = Integer.parseInt(FileIn.next() );
@@ -101,7 +114,7 @@ public class mst {
 			// to init the neighbour edge of each node.
 			MSTFib mstfib = new MSTFib(InputGraph);
 			resultMST = mstfib.getMST();
-			System.out.println("MST cost "+mstfib.getTotalCost());
+			System.out.println(mstfib.getTotalCost());
 			outputMST(resultMST);	
 		}
 		else{
@@ -111,23 +124,24 @@ public class mst {
 
 	}
 	
+	//standard output stream to print out the MST
 	public static void outputMST(ArrayList<Edge> mst)
 	{
 		if(mst != null)
 		{
 			for(Edge e : mst)
 	    	{
-	    		System.out.println(e.getNodeA().getNodeID() +" "
-	    				+e.getNodeB().getNodeID());
+				System.out.println(e.getNodeA().getNodeID() +" "
+	    				+e.getNodeB().getNodeID() +" "+e.getWeight());
 	    	}
-			
-			
+				
 		}
 		else 
 			System.out.println("No MST exist. Can't print mst");
 		
 	}
 	
+	//print mst
 	public static void printMST(ArrayList<Edge> mst)
 	{
 		if(mst != null)
@@ -137,11 +151,12 @@ public class mst {
 	    		System.out.print("Edge: "+ e.getNodeA().getNodeID() +"-"
 	    				+e.getNodeB().getNodeID()+" Weight: "+e.getWeight() +", ");
 	    	}
-			
-			
+				
 		}
 		else 
 			System.out.println("No MST exist. Can't print mst");
+		
+		System.out.print("");
 		
 	}
 
